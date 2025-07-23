@@ -117,6 +117,6 @@ Guest users can add 1 task — but must log in to add more.
 📄 License
 This project is licensed under the MIT License.
 
-Made with 💻 by Sameed Shaikh
+Made by Sameed Shaikh 💻
 
 
