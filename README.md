@@ -1,35 +1,36 @@
-# ✅ Todo Universe 🪐
+# ✅ Todo Universe
 
-**Todo Universe** is a full-stack MERN Todo app that lets users manage tasks with a clean UI, drag-and-drop Task Board, login/register system, and motivational quotes. Guest users can try the app with limited features.
-
----
-
-## 🔍 Features
-
-- 📝 Add / Delete tasks  
-- ✅ Mark tasks complete/incomplete  
-- 🔄 Automatically sync completed tasks to the "Done" column  
-- 🪄 Drag-and-drop Task Board (To Do / In Progress / Done)  
-- 🔐 Register & Login with JWT  
-- ⚠️ Guest users can add only 1 task  
-- 💬 Rotating motivational quotes on Home page  
-- 💻 Clean, modern responsive UI
+**Todo Universe** is a full-stack MERN application for managing your daily tasks with an intuitive UI, user authentication, and a drag-and-drop task board. It supports authenticated users as well as guests (with limited access).
 
 ---
 
-## 🛠️ Tech Stack
+## 🌟 Features
 
-**Frontend (React):**  
+- 📝 Add, update, and delete todos  
+- ✅ Mark tasks as completed/incomplete  
+- 📂 Categorize tasks as: To Do, In Progress, and Done  
+- 🧲 Drag-and-drop Task Board (Kanban style)  
+- 👤 User Authentication (JWT-based login/register)  
+- 🧪 Guest mode: Add 1 task without logging in  
+- 💡 Rotating motivational quotes  
+- 🎨 Modern, clean, responsive UI  
+
+---
+
+## 🔧 Tech Stack
+
+**Frontend:**  
 - React.js  
-- @hello-pangea/dnd  
-- React Router  
-- Custom CSS
+- CSS3 (custom + responsive)  
+- @hello-pangea/dnd (for drag and drop)  
+- React Router DOM  
 
-**Backend (Node + Express):**  
+**Backend:**  
+- Node.js  
 - Express.js  
-- MongoDB + Mongoose  
-- JWT (JSON Web Token)  
-- dotenv, CORS
+- MongoDB with Mongoose  
+- JWT for authentication  
+- CORS and dotenv
 
 ---
 
@@ -40,83 +41,81 @@
 ```bash
 git clone https://github.com/your-username/todo-universe.git
 cd todo-universe
-🔧 Backend Setup (/server folder)
-bash
-Copy
-Edit
-cd server
-npm install
-Create .env file inside /server with the following:
-
-ini
-Copy
-Edit
-MONGO_URI=your_mongodb_uri
-JWT_SECRET=your_secret_key
-Start the backend:
-
-bash
-Copy
-Edit
-node server.js
-🌐 Frontend Setup (/client folder)
-bash
-Copy
-Edit
-cd ../client
+```
+### 🖥️ Frontend Setup (/client)
+```bash
+cd client
 npm install
 npm start
-Frontend URL: http://localhost:3000
-Backend API: http://localhost:5000
+```
 
-📁 Project Structure
-bash
-Copy
-Edit
-todo-universe/
-├── client/              # React frontend
+### 🔧 Backend Setup (/server)
+```bash
+cd server
+npm install
+```
+
+### Create a .env file in the /server folder with the following:
+```bash
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secre
+```
+
+### Then run the backend server:
+```bash
+node server.js
+```
+### 🌐 Project Structure
+
+```bash
+odo-universe/
+│
+├── client/                # React frontend
+│   ├── public/            # Public assets
 │   ├── src/
-│   │   ├── pages/       # Home.jsx, TaskBoard.jsx, Login.jsx, Register.jsx
-│   │   ├── components/  # Reusable components (e.g., Navbar)
-│   │   ├── auth.js      # Frontend API utils for auth
-│   │   └── App.js
-│   ├── public/
-│   ├── .gitignore
-│   └── package.json
-
-├── server/              # Express + MongoDB backend
-│   ├── models/          # Todo and User schemas
-│   ├── routes/          # /todos and /auth routes
-│   ├── middleware/      # JWT authentication middleware
-│   ├── .env             # Environment variables
-│   ├── server.js        # Main server file
+│   │   ├── components/    # Reusable UI components
+│   │   ├── pages/         # Pages: Home, TaskBoard, Auth
+│   │   ├── App.jsx        # React router setup
+│   │   ├── index.js       # Entry point
+│   │   └── ...            
 │   ├── package.json
-│   └── .gitignore
+│   └── README.md
+│
+├── server/                # Express backend
+│   ├── models/            # Mongoose schemas
+│   ├── routes/            # Route handlers (auth, todos)
+│   ├── middleware/        # JWT & auth middleware
+│   ├── server.js          # Main server file
+│   └── .env               # Environment variables
+│
+├── .gitignore
+└── README.md
+```
 
-└── README.md            # You’re reading it
-🧪 .gitignore
-bash
-Copy
-Edit
-# Global ignores
-node_modules/
-.env
-.DS_Store
+### 🛡️ Authentication Logic
 
-# Build
-/build
-/dist
-💡 Future Features
-✅ Responsive design
-✅ Drag-and-drop Task Board
-✅ JWT Auth
-🔜 Google login
-🔜 Task priority levels
-🔜 Task deadlines + reminders
-🔜 Dark mode
+On registration/login, users receive a JWT token stored in localStorage.
 
-👨‍💻 Author
-Made with 💙 by Sameed Shaikh
+Protected routes verify JWT before allowing access.
 
-📜 License
+Guest users can add 1 task — but must log in to add more.
+
+
+
+### 🎯 Future Plans
+🔁 Add user-specific task history
+
+📅 Add due dates and calendar view
+
+📊 Task analytics dashboard
+
+📱 Deploy to Vercel/Render for public access
+
+
+
+📄 License
 This project is licensed under the MIT License.
+
+Made with 💻 by Sameed Shaikh
+
+
