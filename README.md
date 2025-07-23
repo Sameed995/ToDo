@@ -1,6 +1,7 @@
 # ✅ Todo Universe
 
 **Todo Universe** is a full-stack MERN application for managing your daily tasks with an intuitive UI, user authentication, and a drag-and-drop task board. It supports authenticated users as well as guests (with limited access).
+**Note**: You will only be able to create one task without logging in.
 
 ---
 
