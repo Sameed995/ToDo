@@ -67,18 +67,37 @@ node server.js
 ### 🌐 Project Structure
 
 ```bash
-odo-universe/
+Todo-universe/
+client/
+├── node_modules/               # Installed npm packages
 │
-├── client/                # React frontend
-│   ├── public/            # Public assets
-│   ├── src/
-│   │   ├── components/    # Reusable UI components
-│   │   ├── pages/         # Pages: Home, TaskBoard, Auth
-│   │   ├── App.jsx        # React router setup
-│   │   ├── index.js       # Entry point
-│   │   └── ...            
-│   ├── package.json
-│   └── README.md
+├── public/                     # Static assets served by React
+│   └── index.html              # HTML template loaded by React
+│
+├── src/                        # Source code for the React frontend
+│   ├── api/                    # API calls and utility functions
+│   │   └── auth.js             # Handles authentication-related API requests
+│   │
+│   ├── components/             # Reusable UI components
+│   │   ├── Navbar.jsx          # Navigation bar component
+│   │   ├── Navbar.css          # Styling for Navbar
+│   │   └── TodoItem.jsx        # Component to render a single todo item
+│   │
+│   ├── pages/                  # React pages used in routing
+│   │   ├── Home.jsx            # Main todo list page
+│   │   ├── Login.jsx           # User login page
+│   │   ├── Register.jsx        # User registration page
+│   │   └── Taskboard.jsx       # Drag-and-drop task board page
+│   │
+│   ├── api.js                  # General API utility functions
+│   ├── App.css                 # Global stylesheet
+│   ├── App.jsx                 # Main App component (with routing/layout)
+│   └── index.js                # React entry point (renders <App />)
+│
+├── .gitignore                  # Git ignored files and folders
+├── package.json                # Project metadata and dependencies
+├── package-lock.json           # Exact dependency versions
+
 │
 ├── server/                # Express backend
 │   ├── models/            # Mongoose schemas
