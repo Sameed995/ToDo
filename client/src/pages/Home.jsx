@@ -25,85 +25,106 @@ export default function Home() {
     }
   };
 
-  const addTodo = async () => {
-    if (!text.trim()) return;
+  // Add Todo
+const addTodo = async () => {
+  if (!text.trim()) return;
 
-    if (!token && unauthAddCount >= 1) {
-      setAuthWarning('⚠️ Please log in to add more tasks.');
-      return;
+  // Limit: guest can only add 1 task
+  if (!token && unauthAddCount >= 1) {
+    setAuthWarning('⚠️ Please log in to add more tasks.');
+    return;
+  }
+
+  try {
+    const res = await fetch('http://localhost:5000/api/todos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+      body: JSON.stringify({ text, status: 'To Do' }),
+    });
+
+    if (!res.ok) throw new Error('Failed to add todo');
+
+    await fetchTodos();
+    setText('');
+
+    // Only increment counter for unauthenticated users
+    if (!token) {
+      setUnauthAddCount(prev => prev + 1);
     }
 
-    try {
-      const res = await fetch('http://localhost:5000/api/todos', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token && { Authorization: `Bearer ${token}` }),
-        },
-        body: JSON.stringify({ text, status: 'To Do' }),
-      });
-
-      if (!res.ok) throw new Error('Failed to add todo');
-
-      await fetchTodos();
-      setText('');
+    // Clear warning only if logged in
+    if (token) {
       setAuthWarning('');
-      
-      // Increment counter only for unauthenticated users
-      if (!token) {
-        setUnauthAddCount(prev => prev + 1);
-      }
-    } catch (err) {
-      console.error('Add todo error:', err);
-      setAuthWarning('⚠️ Something went wrong.');
     }
-  };
+  } catch (err) {
+    console.error('Add todo error:', err);
+    setAuthWarning('⚠️ Something went wrong.');
+  }
+};
 
-  const deleteTodo = async (id) => {
-    try {
-      await fetch(`http://localhost:5000/api/todos/${id}`, {
-        method: 'DELETE',
-        ...(token && {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-      });
-
-      const updatedTodos = todos.filter(todo => todo._id !== id);
-      setTodos(updatedTodos);
-
-      // Reset limit if unauthenticated user deletes their only task
-      if (!token && updatedTodos.length === 0) {
-        setUnauthAddCount(0);
-        setAuthWarning('');
-      }
-    } catch (err) {
-      console.error('Delete failed:', err);
-      setAuthWarning('⚠️ Failed to delete task.');
-    }
-  };
-
-  const toggleComplete = async (id, currentCompleted) => {
-    const updatedTask = {
-      completed: !currentCompleted,
-      status: !currentCompleted ? 'Done' : 'To Do'
-    };
-    try {
-      const res = await fetch(`http://localhost:5000/api/todos/${id}`, {
-        method: 'PUT',
+// Delete Todo
+const deleteTodo = async (id) => {
+  try {
+    await fetch(`http://localhost:5000/api/todos/${id}`, {
+      method: 'DELETE',
+      ...(token && {
         headers: {
-          'Content-Type': 'application/json',
-          ...(token && { Authorization: `Bearer ${token}` })
-        },
-        body: JSON.stringify(updatedTask)
-      });
-      const updated = await res.json();
-      setTodos(todos.map(todo => (todo._id === id ? updated : todo)));
-    } catch (error) {
-      console.error('Failed to update task', error);
+          Authorization: `Bearer ${token}`
+        }
+      })
+    });
+
+    const updatedTodos = todos.filter(todo => todo._id !== id);
+    setTodos(updatedTodos);
+
+    // Reset limit if unauthenticated user deletes their only task
+    if (!token && updatedTodos.length === 0) {
+      setUnauthAddCount(0);
+      setAuthWarning('');
     }
+  } catch (err) {
+    console.error('Delete failed:', err);
+    setAuthWarning('⚠️ Failed to delete task.');
+  }
+};
+
+// Toggle Complete
+const toggleComplete = async (id, currentCompleted) => {
+  const updatedTask = {
+    completed: !currentCompleted,
+    status: !currentCompleted ? 'Done' : 'To Do'
   };
+
+  // If user is not logged in, update locally
+  if (!token) {
+    setTodos(todos.map(todo =>
+      todo._id === id ? { ...todo, ...updatedTask } : todo
+    ));
+    return;
+  }
+
+  try {
+    const res = await fetch(`http://localhost:5000/api/todos/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` })
+      },
+      body: JSON.stringify(updatedTask)
+    });
+
+    if (!res.ok) throw new Error('Failed to update task');
+
+    const updated = await res.json();
+    setTodos(todos.map(todo => (todo._id === id ? updated : todo)));
+  } catch (error) {
+    console.error('Failed to update task', error);
+    setAuthWarning('⚠️ Could not update task.');
+  }
+};
 
   const clearAllTodos = async () => {
     if (window.confirm('Are you sure you want to delete all tasks?')) {
