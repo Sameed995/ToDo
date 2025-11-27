@@ -10,7 +10,6 @@ export default function Navbar() {
   const [userName, setUserName] = useState('');
 
   const quotes = [
-    `"Free Palestine"`,
     `"Progress through discipline"`,
     `"Unity brings strength"`,
     `"Harmony in productivity"`,
