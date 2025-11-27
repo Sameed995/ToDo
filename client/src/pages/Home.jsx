@@ -36,7 +36,7 @@ const addTodo = async () => {
   }
 
   try {
-    const res = await fetch('https://todo-jdiu.onrender.com/', {
+    const res = await fetch('https://todo-jdiu.onrender.com/api/todos', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ const addTodo = async () => {
 // Delete Todo
 const deleteTodo = async (id) => {
   try {
-    await fetch(`https://todo-jdiu.onrender.com//${id}`, {
+    await fetch(`https://todo-jdiu.onrender.com/api/todos/${id}`, {
       method: 'DELETE',
       ...(token && {
         headers: {
@@ -107,7 +107,7 @@ const toggleComplete = async (id, currentCompleted) => {
   }
 
   try {
-    const res = await fetch(`https://todo-jdiu.onrender.com//${id}`, {
+    const res = await fetch(`https://todo-jdiu.onrender.com/api/todos/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -129,7 +129,7 @@ const toggleComplete = async (id, currentCompleted) => {
   const clearAllTodos = async () => {
     if (window.confirm('Are you sure you want to delete all tasks?')) {
       for (const todo of todos) {
-        await fetch(`https://todo-jdiu.onrender.com//${todo._id}`, {
+        await fetch(`https://todo-jdiu.onrender.com/api/todos/${todo._id}`, {
           method: 'DELETE',
           ...(token && {
             headers: {
