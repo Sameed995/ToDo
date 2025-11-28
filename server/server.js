@@ -8,6 +8,10 @@ app.use(cors());
 app.use(express.json());
 
 // ===== Routes =====
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'API is reachable!' });
+});
+
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/todos', require('./routes/todos'));
 
