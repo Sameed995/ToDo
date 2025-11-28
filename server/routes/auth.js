@@ -26,12 +26,18 @@ router.post('/register', async (req, res) => {
 // Login
 router.post('/login', async (req, res) => {
   try {
+    console.log('Login body:', req.body); // <-- debug inside route
+
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
+    console.log('User found in DB:', user); // <-- debug inside route
+
     if (!user) return res.status(400).json({ error: 'Invalid email or password' });
 
     const isMatch = await user.comparePassword(password);
+    console.log('Password match:', isMatch); // <-- debug inside route
+
     if (!isMatch) return res.status(400).json({ error: 'Invalid email or password' });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
