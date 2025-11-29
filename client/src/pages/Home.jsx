@@ -7,140 +7,126 @@ export default function Home() {
   const [unauthAddCount, setUnauthAddCount] = useState(0);
   const [token, setToken] = useState(localStorage.getItem('token'));
 
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
   const fetchTodos = async () => {
     try {
-      const res = await fetch('https://todo-jdiu.onrender.com', {
+      const res = await fetch(`${BACKEND_URL}/api/todos`, {
         headers: {
           ...(token && { Authorization: `Bearer ${token}` })
         }
       });
+      if (!res.ok) throw new Error('Failed to fetch todos');
       const data = await res.json();
       setTodos(data);
-      // Update unauthAddCount based on current todos for unauthenticated users
-      if (!token) {
-        setUnauthAddCount(data.length);
-      }
+      if (!token) setUnauthAddCount(data.length);
     } catch (err) {
       console.error('Error fetching todos:', err);
     }
   };
 
   // Add Todo
-const addTodo = async () => {
-  if (!text.trim()) return;
+  const addTodo = async () => {
+    if (!text.trim()) return;
 
-  // Limit: guest can only add 1 task
-  if (!token && unauthAddCount >= 1) {
-    setAuthWarning('⚠️ Please log in to add more tasks.');
-    return;
-  }
-
-  try {
-    const res = await fetch('https://todo-jdiu.onrender.com/api/todos', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }),
-      },
-      body: JSON.stringify({ text, status: 'To Do' }),
-    });
-
-    if (!res.ok) throw new Error('Failed to add todo');
-
-    await fetchTodos();
-    setText('');
-
-    // Only increment counter for unauthenticated users
-    if (!token) {
-      setUnauthAddCount(prev => prev + 1);
+    if (!token && unauthAddCount >= 1) {
+      setAuthWarning('⚠️ Please log in to add more tasks.');
+      return;
     }
 
-    // Clear warning only if logged in
-    if (token) {
-      setAuthWarning('');
-    }
-  } catch (err) {
-    console.error('Add todo error:', err);
-    setAuthWarning('⚠️ Something went wrong.');
-  }
-};
-
-// Delete Todo
-const deleteTodo = async (id) => {
-  try {
-    await fetch(`https://todo-jdiu.onrender.com/api/todos/${id}`, {
-      method: 'DELETE',
-      ...(token && {
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/todos`, {
+        method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-    });
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: JSON.stringify({ text, status: 'To Do' }),
+      });
 
-    const updatedTodos = todos.filter(todo => todo._id !== id);
-    setTodos(updatedTodos);
+      if (!res.ok) throw new Error('Failed to add todo');
 
-    // Reset limit if unauthenticated user deletes their only task
-    if (!token && updatedTodos.length === 0) {
-      setUnauthAddCount(0);
-      setAuthWarning('');
+      await fetchTodos();
+      setText('');
+
+      if (!token) setUnauthAddCount(prev => prev + 1);
+      if (token) setAuthWarning('');
+    } catch (err) {
+      console.error('Add todo error:', err);
+      setAuthWarning('⚠️ Something went wrong.');
     }
-  } catch (err) {
-    console.error('Delete failed:', err);
-    setAuthWarning('⚠️ Failed to delete task.');
-  }
-};
-
-// Toggle Complete
-const toggleComplete = async (id, currentCompleted) => {
-  const updatedTask = {
-    completed: !currentCompleted,
-    status: !currentCompleted ? 'Done' : 'To Do'
   };
 
-  // If user is not logged in, update locally
-  if (!token) {
-    setTodos(todos.map(todo =>
-      todo._id === id ? { ...todo, ...updatedTask } : todo
-    ));
-    return;
-  }
+  // Delete Todo
+  const deleteTodo = async (id) => {
+    try {
+      await fetch(`${BACKEND_URL}/api/todos/${id}`, {
+        method: 'DELETE',
+        ...(token && {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+      });
 
-  try {
-    const res = await fetch(`https://todo-jdiu.onrender.com/api/todos/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` })
-      },
-      body: JSON.stringify(updatedTask)
-    });
+      const updatedTodos = todos.filter(todo => todo._id !== id);
+      setTodos(updatedTodos);
 
-    if (!res.ok) throw new Error('Failed to update task');
+      if (!token && updatedTodos.length === 0) {
+        setUnauthAddCount(0);
+        setAuthWarning('');
+      }
+    } catch (err) {
+      console.error('Delete failed:', err);
+      setAuthWarning('⚠️ Failed to delete task.');
+    }
+  };
 
-    const updated = await res.json();
-    setTodos(todos.map(todo => (todo._id === id ? updated : todo)));
-  } catch (error) {
-    console.error('Failed to update task', error);
-    setAuthWarning('⚠️ Could not update task.');
-  }
-};
+  // Toggle Complete
+  const toggleComplete = async (id, currentCompleted) => {
+    const updatedTask = {
+      completed: !currentCompleted,
+      status: !currentCompleted ? 'Done' : 'To Do'
+    };
+
+    if (!token) {
+      setTodos(todos.map(todo =>
+        todo._id === id ? { ...todo, ...updatedTask } : todo
+      ));
+      return;
+    }
+
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/todos/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` })
+        },
+        body: JSON.stringify(updatedTask)
+      });
+
+      if (!res.ok) throw new Error('Failed to update task');
+
+      const updated = await res.json();
+      setTodos(todos.map(todo => (todo._id === id ? updated : todo)));
+    } catch (error) {
+      console.error('Failed to update task', error);
+      setAuthWarning('⚠️ Could not update task.');
+    }
+  };
 
   const clearAllTodos = async () => {
     if (window.confirm('Are you sure you want to delete all tasks?')) {
       for (const todo of todos) {
-        await fetch(`https://todo-jdiu.onrender.com/api/todos/${todo._id}`, {
+        await fetch(`${BACKEND_URL}/api/todos/${todo._id}`, {
           method: 'DELETE',
           ...(token && {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
+            headers: { Authorization: `Bearer ${token}` }
           })
         });
       }
       setTodos([]);
-
-      // Reset guest limit on clear
       if (!token) {
         setUnauthAddCount(0);
         setAuthWarning('');
@@ -156,10 +142,8 @@ const toggleComplete = async (id, currentCompleted) => {
     const storedToken = localStorage.getItem('token');
     setToken(storedToken);
     fetchTodos();
-
-    // Reset on load if not authenticated
     if (!storedToken) {
-      setUnauthAddCount(todos.length); // Initialize with current todo count
+      setUnauthAddCount(todos.length);
       setAuthWarning('');
     }
   }, [token]);
