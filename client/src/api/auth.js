@@ -1,19 +1,25 @@
 import axios from 'axios';
 
-// Use relative path so it works in both local and deployed environments
+// Backend URL
 const API_URL = "https://todo-jdiu.onrender.com/api/auth";
 
 /**
  * Registers a new user
- * @param {Object} formData - { name?, email, password }
+ * @param {Object} formData - { username, email, password }
  * @returns {Promise} Axios response
  */
 export const registerUser = async (formData) => {
   try {
-    const response = await axios.post(`${API_URL}/register`, formData);
-    return response;
+    // Validate required fields
+    const { username, email, password } = formData;
+    if (!username || !email || !password) {
+      throw new Error('Username, email, and password are required');
+    }
+
+    const response = await axios.post(`${API_URL}/register`, { username, email, password });
+    return response.data; // return only the data
   } catch (error) {
-    // Throw a more readable error message
+    console.error('Register error:', error.response?.data || error.message);
     throw new Error(error.response?.data?.message || 'Registration failed');
   }
 };
@@ -25,10 +31,15 @@ export const registerUser = async (formData) => {
  */
 export const loginUser = async (formData) => {
   try {
-    const response = await axios.post(`${API_URL}/login`, formData);
-    return response;
+    const { email, password } = formData;
+    if (!email || !password) {
+      throw new Error('Email and password are required');
+    }
+
+    const response = await axios.post(`${API_URL}/login`, { email, password });
+    return response.data; // return only the data
   } catch (error) {
-    // Throw a more readable error message
+    console.error('Login error:', error.response?.data || error.message);
     throw new Error(error.response?.data?.message || 'Login failed');
   }
 };
