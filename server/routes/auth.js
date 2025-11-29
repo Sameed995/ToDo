@@ -16,7 +16,7 @@ router.post('/register', async (req, res) => {
 
     res.status(201).json({ message: 'User registered successfully' });
   } catch (err) {
-    console.error(err);
+    console.error('Registration error:', err);
     res.status(500).json({ error: 'Server error during registration' });
   }
 });
@@ -24,25 +24,19 @@ router.post('/register', async (req, res) => {
 // Login
 router.post('/login', async (req, res) => {
   try {
-    console.log('Login body:', req.body); // debug
-
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-    console.log('User found in DB:', user); // debug
-
     if (!user) return res.status(400).json({ error: 'Invalid email or password' });
 
     const isMatch = await user.comparePassword(password);
-    console.log('Password match:', isMatch); // debug
-
     if (!isMatch) return res.status(400).json({ error: 'Invalid email or password' });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
     res.json({ token, user: { id: user._id, username: user.username, email: user.email } });
   } catch (err) {
-    console.error(err);
+    console.error('Login error:', err);
     res.status(500).json({ error: 'Server error during login' });
   }
 });
