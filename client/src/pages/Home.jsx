@@ -7,14 +7,15 @@ export default function Home() {
   const [unauthAddCount, setUnauthAddCount] = useState(0);
   const [token, setToken] = useState(localStorage.getItem('token'));
 
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+  // Use relative API paths for Netlify deployment
+  const API_BASE = '/api';
 
   const fetchTodos = async () => {
     try {
-      const res = await fetch(`${BACKEND_URL}/api/todos`, {
+      const res = await fetch(`${API_BASE}/todos`, {
         headers: {
-          ...(token && { Authorization: `Bearer ${token}` })
-        }
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
       });
       if (!res.ok) throw new Error('Failed to fetch todos');
       const data = await res.json();
@@ -25,7 +26,6 @@ export default function Home() {
     }
   };
 
-  // Add Todo
   const addTodo = async () => {
     if (!text.trim()) return;
 
@@ -35,7 +35,7 @@ export default function Home() {
     }
 
     try {
-      const res = await fetch(`${BACKEND_URL}/api/todos`, {
+      const res = await fetch(`${API_BASE}/todos`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,16 +57,13 @@ export default function Home() {
     }
   };
 
-  // Delete Todo
   const deleteTodo = async (id) => {
     try {
-      await fetch(`${BACKEND_URL}/api/todos/${id}`, {
+      await fetch(`${API_BASE}/todos/${id}`, {
         method: 'DELETE',
         ...(token && {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
+          headers: { Authorization: `Bearer ${token}` },
+        }),
       });
 
       const updatedTodos = todos.filter(todo => todo._id !== id);
@@ -82,11 +79,10 @@ export default function Home() {
     }
   };
 
-  // Toggle Complete
   const toggleComplete = async (id, currentCompleted) => {
     const updatedTask = {
       completed: !currentCompleted,
-      status: !currentCompleted ? 'Done' : 'To Do'
+      status: !currentCompleted ? 'Done' : 'To Do',
     };
 
     if (!token) {
@@ -97,13 +93,13 @@ export default function Home() {
     }
 
     try {
-      const res = await fetch(`${BACKEND_URL}/api/todos/${id}`, {
+      const res = await fetch(`${API_BASE}/todos/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          ...(token && { Authorization: `Bearer ${token}` })
+          ...(token && { Authorization: `Bearer ${token}` }),
         },
-        body: JSON.stringify(updatedTask)
+        body: JSON.stringify(updatedTask),
       });
 
       if (!res.ok) throw new Error('Failed to update task');
@@ -119,11 +115,9 @@ export default function Home() {
   const clearAllTodos = async () => {
     if (window.confirm('Are you sure you want to delete all tasks?')) {
       for (const todo of todos) {
-        await fetch(`${BACKEND_URL}/api/todos/${todo._id}`, {
+        await fetch(`${API_BASE}/todos/${todo._id}`, {
           method: 'DELETE',
-          ...(token && {
-            headers: { Authorization: `Bearer ${token}` }
-          })
+          ...(token && { headers: { Authorization: `Bearer ${token}` } }),
         });
       }
       setTodos([]);
@@ -165,9 +159,8 @@ export default function Home() {
           }
         `}
       </style>
-      {authWarning && (
-        <div style={styles.warning}>{authWarning}</div>
-      )}
+
+      {authWarning && <div style={styles.warning}>{authWarning}</div>}
 
       <div style={styles.background}></div>
       <h1 style={styles.title}>✨ Your Todo Universe</h1>
