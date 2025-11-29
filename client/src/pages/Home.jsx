@@ -8,7 +8,8 @@ export default function Home() {
   const [token, setToken] = useState(localStorage.getItem('token'));
 
   // Use relative API paths for Netlify deployment
-  const API_BASE = '/api';
+const API_BASE = "https://todo-jdiu.onrender.com";
+
 
   const fetchTodos = async () => {
     try {
