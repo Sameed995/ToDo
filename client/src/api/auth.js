@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Use relative path so it works in both local and deployed environments
-const API_URL = '/api/auth';
+const API_URL = "https://todo-jdiu.onrender.com/api/auth";
 
 /**
  * Registers a new user
