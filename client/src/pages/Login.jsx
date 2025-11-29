@@ -10,7 +10,6 @@ export default function Login() {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    // Clear error when user starts typing
     if (error) setError('');
   };
 
@@ -19,16 +18,17 @@ export default function Login() {
     setIsLoading(true);
     try {
       const res = await loginUser(form);
-      localStorage.setItem('token', res.data.token);
+      console.log('Login response:', res);
+      localStorage.setItem('token', res.token); // <-- store token correctly
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err.message || 'Login failed'); // <-- show proper error
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Styles matching the home page aesthetic
+  // Styles
   const containerStyle = {
     maxWidth: '500px',
     margin: '0 auto',
@@ -42,18 +42,15 @@ export default function Login() {
     flexDirection: 'column',
     justifyContent: 'center'
   };
-
   const backgroundStyle = {
     position: 'absolute',
     top: 0, left: 0, right: 0, bottom: 0,
     background: `
       radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.05) 0%, transparent 50%),
       radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 40% 80%, rgba(102, 126, 234, 0.03) 0%, transparent 50%)
-    `,
+      radial-gradient(circle at 40% 80%, rgba(102, 126, 234, 0.03) 0%, transparent 50%)`,
     zIndex: -1
   };
-
   const titleStyle = {
     textAlign: 'center',
     fontSize: '3em',
@@ -65,7 +62,6 @@ export default function Login() {
     textShadow: '0 2px 4px rgba(0,0,0,0.1)',
     animation: 'float 6s ease-in-out infinite'
   };
-
   const subtitleStyle = {
     textAlign: 'center',
     fontSize: '1.1em',
@@ -73,7 +69,6 @@ export default function Login() {
     marginBottom: '40px',
     fontWeight: '500'
   };
-
   const formContainerStyle = {
     background: 'rgba(255, 255, 255, 0.9)',
     padding: '40px',
@@ -83,7 +78,6 @@ export default function Login() {
     border: '1px solid rgba(255, 255, 255, 0.3)',
     animation: 'slideIn 0.6s ease-out'
   };
-
   const inputStyle = {
     width: '100%',
     padding: '16px 20px',
@@ -99,14 +93,12 @@ export default function Login() {
     marginBottom: '20px',
     boxSizing: 'border-box'
   };
-
   const inputFocusStyle = {
     ...inputStyle,
     borderColor: '#667eea',
     boxShadow: '0 4px 20px rgba(102, 126, 234, 0.2)',
     transform: 'translateY(-2px)'
   };
-
   const buttonStyle = {
     width: '100%',
     padding: '16px 32px',
@@ -127,7 +119,6 @@ export default function Login() {
     overflow: 'hidden',
     marginTop: '10px'
   };
-
   const errorStyle = {
     background: 'rgba(239, 68, 68, 0.1)',
     color: '#dc2626',
@@ -139,21 +130,8 @@ export default function Login() {
     fontWeight: '500',
     animation: 'slideIn 0.3s ease-out'
   };
-
-  const linkStyle = {
-    textAlign: 'center',
-    marginTop: '24px',
-    fontSize: '14px',
-    color: '#64748b'
-  };
-
-  const linkButtonStyle = {
-    color: '#667eea',
-    textDecoration: 'none',
-    fontWeight: '600',
-    cursor: 'pointer',
-    transition: 'color 0.2s ease'
-  };
+  const linkStyle = { textAlign: 'center', marginTop: '24px', fontSize: '14px', color: '#64748b' };
+  const linkButtonStyle = { color: '#667eea', textDecoration: 'none', fontWeight: '600', cursor: 'pointer', transition: 'color 0.2s ease' };
 
   return (
     <>
@@ -164,14 +142,8 @@ export default function Login() {
             50% { transform: translateY(-10px); }
           }
           @keyframes slideIn {
-            from {
-              opacity: 0;
-              transform: translateY(30px) scale(0.95);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0px) scale(1);
-            }
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0px) scale(1); }
           }
           @keyframes pulse {
             0%, 100% { opacity: 1; }
@@ -179,15 +151,14 @@ export default function Login() {
           }
         `}
       </style>
+
       <div style={containerStyle}>
         <div style={backgroundStyle}></div>
-        
         <h1 style={titleStyle}>🌟 Welcome Back</h1>
         <p style={subtitleStyle}>Sign in to your Todo Universe</p>
-        
+
         <div style={formContainerStyle}>
           {error && <div style={errorStyle}>⚠️ {error}</div>}
-          
           <form onSubmit={handleSubmit}>
             <input
               name="email"
@@ -201,7 +172,6 @@ export default function Login() {
               required
               disabled={isLoading}
             />
-            
             <input
               name="password"
               type="password"
@@ -214,34 +184,11 @@ export default function Login() {
               required
               disabled={isLoading}
             />
-            
-            <button
-              type="submit"
-              style={buttonStyle}
-              disabled={isLoading}
-              onMouseEnter={(e) => {
-                if (!isLoading) {
-                  e.target.style.transform = 'translateY(-3px) scale(1.02)';
-                  e.target.style.boxShadow = '0 15px 35px rgba(102, 126, 234, 0.5)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!isLoading) {
-                  e.target.style.transform = 'translateY(0px) scale(1)';
-                  e.target.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.4)';
-                }
-              }}
-            >
-              {isLoading ? (
-                <span style={{ animation: 'pulse 1.5s infinite' }}>
-                  🚀 Signing in...
-                </span>
-              ) : (
-                '🚀 Sign In'
-              )}
+            <button type="submit" style={buttonStyle} disabled={isLoading}>
+              {isLoading ? <span style={{ animation: 'pulse 1.5s infinite' }}>🚀 Signing in...</span> : '🚀 Sign In'}
             </button>
           </form>
-          
+
           <div style={linkStyle}>
             Don't have an account?{' '}
             <span
