@@ -1,4 +1,3 @@
-// src/components/TaskBoard.jsx
 import React, { useEffect, useState } from 'react';
 import API from '../api';
 import { Link } from 'react-router-dom';
@@ -11,22 +10,30 @@ export default function TaskBoard() {
     'Done': []
   });
 
+  // Fetch tasks for logged-in or guest users
   const fetchTasks = async () => {
     try {
       const token = localStorage.getItem('token');
-      if (!token) return;
+      let res;
 
-      const res = await API.get('/todos', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      if (token) {
+        res = await API.get('/todos', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        // fallback to guest tasks if user has none
+        if (res.data.length === 0) {
+          res = await API.get('/todos');
+        }
+      } else {
+        res = await API.get('/todos');
+      }
 
       const grouped = { 'To Do': [], 'In Progress': [], 'Done': [] };
       res.data.forEach(task => {
-        if (grouped[task.status]) grouped[task.status].push(task);
+        grouped[task.status]?.push(task);
       });
 
       setColumns(grouped);
-      console.log('Fetched tasks:', res.data);
     } catch (error) {
       console.error('Failed to fetch tasks', error);
     }
@@ -37,9 +44,7 @@ export default function TaskBoard() {
   }, []);
 
   const handleDragEnd = async ({ source, destination, draggableId }) => {
-    if (!destination || (source.droppableId === destination.droppableId && source.index === destination.index)) {
-      return;
-    }
+    if (!destination || (source.droppableId === destination.droppableId && source.index === destination.index)) return;
 
     const sourceColumn = columns[source.droppableId];
     const destColumn = columns[destination.droppableId];
@@ -62,17 +67,18 @@ export default function TaskBoard() {
       [source.droppableId]: newSource,
       [destination.droppableId]: newDest
     };
-
     setColumns(newColumns);
 
     try {
       const token = localStorage.getItem('token');
-      await API.put(`/todos/${draggableId}`, {
-        status: updatedTask.status,
-        completed: updatedTask.completed
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      if (token) {
+        await API.put(`/todos/${draggableId}`, {
+          status: updatedTask.status,
+          completed: updatedTask.completed
+        }, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+      }
     } catch (error) {
       console.error('Failed to update task', error);
     }
@@ -92,59 +98,40 @@ export default function TaskBoard() {
       <Link 
         to="/" 
         style={{
-          textDecoration: 'none',
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '8px',
-          marginBottom: '20px',
-          padding: '10px 16px',
+          textDecoration: 'none', display: 'inline-flex', alignItems: 'center',
+          gap: '8px', marginBottom: '20px', padding: '10px 16px',
           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          color: 'white',
-          borderRadius: '12px',
-          fontSize: '14px',
-          fontWeight: '500',
-          boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
-          cursor: 'pointer',
-          border: 'none'
+          color: 'white', borderRadius: '12px', fontSize: '14px', fontWeight: '500',
+          boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)', cursor: 'pointer', border: 'none'
         }}
+        onMouseEnter={(e) => { e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.4)'; }}
+        onMouseLeave={(e) => { e.target.style.transform = 'translateY(0px)'; e.target.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.3)'; }}
       >
-        <span style={{ fontSize: '16px' }}>←</span> Back to List
+        <span style={{ fontSize: '16px' }}>←</span>
+        Back to List
       </Link>
 
       <h1 style={{
-        textAlign: 'center',
-        fontSize: '3em',
-        fontWeight: '800',
+        textAlign: 'center', fontSize: '3em', fontWeight: '800',
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        marginBottom: '10px',
-        textShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+        marginBottom: '10px', textShadow: '0 2px 4px rgba(0,0,0,0.1)'
       }}>
         🗂️ Task Board
       </h1>
 
       <DragDropContext onDragEnd={handleDragEnd}>
-        <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
-          {Object.keys(columns).map(column => (
-            <div key={column} style={{
-              flex: 1,
-              background: '#f9f9f9',
-              padding: '15px',
-              borderRadius: '10px',
-              boxShadow: '0 0 5px rgba(0,0,0,0.1)',
-              minHeight: '400px'
-            }}>
+        <div style={{ display: 'flex', gap: '20px', marginTop: '20px', flexWrap: 'wrap' }}>
+          {Object.keys(columns).map((column) => (
+            <div key={column} style={{ flex: 1, minWidth: '250px', background: '#f9f9f9', padding: '15px', borderRadius: '10px', boxShadow: '0 0 5px rgba(0,0,0,0.1)', minHeight: '400px' }}>
               <h2 style={{
-                textAlign: 'center',
-                fontSize: '1.5em',
-                fontWeight: '700',
+                textAlign: 'center', fontSize: '1.5em', fontWeight: '700',
                 background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                marginBottom: '15px',
-                textShadow: '0 1px 2px rgba(0,0,0,0.05)'
-              }}>{column}</h2>
+                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                marginBottom: '15px', textShadow: '0 1px 2px rgba(0,0,0,0.05)'
+              }}>
+                {column}
+              </h2>
 
               <Droppable droppableId={column}>
                 {(provided) => (
@@ -156,12 +143,9 @@ export default function TaskBoard() {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            style={{ 
-                              marginBottom: '10px',
-                              padding: '10px 15px',
-                              borderRadius: '6px',
-                              boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
-                              userSelect: 'none',
+                            style={{
+                              marginBottom: '10px', padding: '10px 15px', borderRadius: '6px',
+                              boxShadow: '0 2px 6px rgba(0,0,0,0.1)', userSelect: 'none',
                               ...getCardStyle(task.status),
                               ...provided.draggableProps.style
                             }}
