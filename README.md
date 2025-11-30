@@ -40,46 +40,46 @@ A modern To-Do List web application built with **React** and **Node.js**, featur
 ## Installation
 
 1. **Clone the repository**
-\`\`\`bash
+`bash
 git clone https://github.com/your-username/todo-dnd.git
 cd todo-dnd
-\`\`\`
+`
 
 2. **Install backend dependencies**
-\`\`\`bash
+   `bash
 cd backend
 npm install
-\`\`\`
+   `
 
 3. **Install frontend dependencies**
-\`\`\`bash
+`bash
 cd ../frontend
 npm install
-\`\`\`
+`
 
 4. **Set up environment variables**  
 Create a `.env` file in the backend folder:
-\`\`\`
+   `
 MONGO_URI=your_mongodb_uri
 JWT_SECRET=your_secret_key
 PORT=5000
-\`\`\`
+`
 
 ---
 
 ## Running the App
 
 ### Backend
-\`\`\`bash
+```bash
 cd backend
 npm start
-\`\`\`
+```
 
 ### Frontend
-\`\`\`bash
+```bash
 cd frontend
 npm start
-\`\`\`
+```
 
 Open [http://localhost:3000](http://localhost:3000) to see the app.
 
