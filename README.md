@@ -3,10 +3,9 @@ Drag-and-Drop To-Do List
 A modern To-Do List web application built with React and Node.js, featuring drag-and-drop functionality for easy task management. Organize your tasks efficiently with interactive Kanban-style boards.
 
 Features:
-- Drag and Drop Tasks: Move tasks between columns like To-Do, In Progress, and Done.
+- Drag and Drop Tasks: Move tasks between columns like To-Do, In Progress, and Completed.
 - CRUD Operations: Create, Read, Update, and Delete tasks.
-- User Authentication: Optional login to save your tasks.
-- Responsive Design: Works on desktop and mobile devices.
+- User Authentication: Login to start using.
 - Real-time Updates: Changes are instantly reflected without page refresh.
 
 Screenshots:
@@ -25,8 +24,8 @@ Database: MongoDB, Mongoose
 Installation:
 
 1. Clone the repository:
-   git clone https://github.com/your-username/todo-dnd.git
-   cd todo-dnd
+   git clone https://github.com/Sameed995/ToDo.git
+   cd ToDo
 
 2. Install backend dependencies:
    cd backend
