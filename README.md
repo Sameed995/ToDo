@@ -1,16 +1,102 @@
-# React + Vite
+# Drag-and-Drop To-Do List
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern To-Do List web application built with **React** and **Node.js**, featuring **drag-and-drop functionality** for easy task management. Organize your tasks efficiently with interactive Kanban-style boards.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- **Drag and Drop Tasks:** Move tasks between columns like To-Do, In Progress, and Done.
+- **CRUD Operations:** Create, Read, Update, and Delete tasks.
+- **User Authentication:** Optional login to save your tasks.
+- **Responsive Design:** Works on desktop and mobile devices.
+- **Real-time Updates:** Changes are instantly reflected without page refresh.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Screenshots
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Board View
+![Board Screenshot](./images/board.png)  
+
+### Task Details / Modal
+![Task Screenshot](./images/task.png)  
+
+> Replace the paths with your actual image paths.  
+
+---
+
+## Tech Stack
+
+| Frontend | Backend | Database |
+|----------|---------|---------|
+| React.js | Node.js + Express | MongoDB |
+| TailwindCSS | JWT Auth | Mongoose |
+| @dnd-kit/core | Axios | |
+
+---
+
+## Installation
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/your-username/todo-dnd.git
+cd todo-dnd
+Install backend dependencies
+
+bash
+Copy code
+cd backend
+npm install
+Install frontend dependencies
+
+bash
+Copy code
+cd ../frontend
+npm install
+Set up environment variables
+Create a .env file in the backend:
+
+ini
+Copy code
+MONGO_URI=your_mongodb_uri
+JWT_SECRET=your_secret_key
+PORT=5000
+Running the App
+Backend
+bash
+Copy code
+cd backend
+npm start
+Frontend
+bash
+Copy code
+cd frontend
+npm start
+Open http://localhost:3000 to see the app.
+
+Usage
+Add a new task in the "To-Do" column.
+
+Drag and drop tasks between columns to update their status.
+
+Click on a task to edit or delete it.
+
+Login to save your tasks across sessions.
+
+Contributing
+Fork the repository
+
+Create a new branch (git checkout -b feature/your-feature)
+
+Make your changes
+
+Commit your changes (git commit -m "Add some feature")
+
+Push to the branch (git push origin feature/your-feature)
+
+Open a Pull Request
+
+License
+This project is licensed under the MIT License.
+See the LICENSE file for details.
