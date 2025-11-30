@@ -16,7 +16,6 @@ Screenshots:
 - Task Details ![App Screenshot](assets/c.png)
 - Task Details ![App Screenshot](assets/d.png)
 
-(Replace the image paths with your actual screenshots.)
 
 Tech Stack:
 Frontend: React.js, TailwindCSS, @dnd-kit/core
