@@ -1,0 +1,78 @@
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* Background & text */
+  color: #1f2937;
+  background-color: #f3f4f6;
+
+  /* Accent colors */
+  --primary: #6366f1; /* Indigo */
+  --secondary: #f472b6; /* Pink */
+  --success: #10b981; /* Green */
+  --danger: #ef4444; /* Red */
+  --card-bg: #ffffff;
+  --input-bg: #f9fafb;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  /* 🌄 Added background image (only change) */
+  background: 
+    linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
+    url("/bg.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+a {
+  font-weight: 500;
+  color: var(--primary);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  border-radius: 8px;
+  border: none;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+button:hover {
+  background-color: #4f46e5;
+}
+
+input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 1em;
+  background-color: var(--input-bg);
+}
+/* Frosted glass wrapper behind Kanban board */
+.kanban-blur {
+  width: 100%;
+  min-height: 100vh;
+
+  backdrop-filter: blur(12px);      /* the magic: blurs the background image */
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.45); /* translucent layer */
+}
