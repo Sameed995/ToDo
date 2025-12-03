@@ -106,7 +106,7 @@ mern-todo-app
 │  │     └─ constants.js
 │  └─ vite.config.js
 ├─ README.md
-└─ structure.md
+
 
 ```
 
