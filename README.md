@@ -190,7 +190,7 @@ PORT=3000
 
 ---
 
-## 💙 Author
+## 💙 Sameed
 Made with React, patience, and many bugs.  
 Ask me for improvements anytime!
 
