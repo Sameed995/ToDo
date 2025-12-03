@@ -188,6 +188,7 @@ PORT=3000
 - Tasks must have unique IDs from MongoDB.
 - Edit button appears only in **To-Do** column.
 - Dragging works only inside DndContext wrapper.
+- DOES NOT work on Mobile Web Browser
 
 ---
 
