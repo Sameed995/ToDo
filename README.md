@@ -65,7 +65,7 @@ mern-todo-app
 │  │  ├─ server.js
 │  │  └─ utils
 │  │     └─ asyncHandler.js
-│  └─ test.js
+│  └─ test.js //For testing api endpoints
 ├─ frontend
 │  ├─ eslint.config.js
 │  ├─ index.html
