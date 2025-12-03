@@ -18,16 +18,6 @@ Interactive Kanban board interface
 
 Clean, modern UI with TailwindCSS styling
 
-<<<<<<< HEAD
-Visual task status indicators
-=======
-1. Clone the repository:
-   git clone https://github.com/Sameed995/ToDo.git
-   cd ToDo
->>>>>>> c69231db32b922c4d4fc11bc92caf9f4d3b9647d
-
-Intuitive task editing and management
-
 📸 Screenshots
 Board View	Task Details	Task Management
 https://assets/e.png	https://assets/a.png	https://assets/c.png
