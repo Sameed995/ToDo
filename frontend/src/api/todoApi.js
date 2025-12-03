@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://todo-6vh9.onrender.com/api",
 });
 
 // Interceptor ensures token is always sent on EVERY request
