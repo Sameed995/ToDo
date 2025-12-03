@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
 
   // Login function
   const login = async (email, password) => {
-    const res = await axios.post("https://todo-6vh9.onrender.com/auth/login", { email, password });
+    const res = await axios.post("https://todo-6vh9.onrender.com/api/auth/login", { email, password });
 
     const userData = {
       _id: res.data._id,
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
   // Register function
   const register = async (name, email, password) => {
-    const res = await axios.post("https://todo-6vh9.onrender.com/auth/register", { name, email, password });
+    const res = await axios.post("https://todo-6vh9.onrender.com/api/auth/register", { name, email, password });
     return res.data;
   };
 
