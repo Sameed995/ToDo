@@ -116,7 +116,6 @@ PORT=3000
 ## 🐞 Known Issues / Notes
 
 - Tasks must have unique IDs from MongoDB.
-- Delete button appears only in **Done** column.
 - Edit button appears only in **To-Do** column.
 - Dragging works only inside DndContext wrapper.
 
@@ -136,3 +135,218 @@ Ask me for improvements anytime!
 
 ---
 
+
+```
+mern-todo-app
+├─ assets
+│  ├─ a.png
+│  ├─ b.png
+│  ├─ c.png
+│  ├─ d.png
+│  └─ e.png
+├─ backend
+│  ├─ package-lock.json
+│  ├─ package.json
+│  ├─ src
+│  │  ├─ config
+│  │  │  └─ db.js
+│  │  ├─ controllers
+│  │  │  ├─ authController.js
+│  │  │  └─ todoController.js
+│  │  ├─ middleware
+│  │  │  └─ authMiddleware.js
+│  │  ├─ models
+│  │  │  ├─ Todo.js
+│  │  │  └─ User.js
+│  │  ├─ routes
+│  │  │  ├─ authRoutes.js
+│  │  │  └─ todoRoutes.js
+│  │  ├─ server.js
+│  │  └─ utils
+│  │     └─ asyncHandler.js
+│  └─ test.js
+├─ frontend
+│  ├─ eslint.config.js
+│  ├─ index.html
+│  ├─ package-lock.json
+│  ├─ package.json
+│  ├─ public
+│  │  ├─ bg.jpg
+│  │  └─ vite.svg
+│  ├─ src
+│  │  ├─ api
+│  │  │  ├─ authApi.js
+│  │  │  ├─ axiosConfig.js
+│  │  │  └─ todoApi.js
+│  │  ├─ App.css
+│  │  ├─ App.jsx
+│  │  ├─ assets
+│  │  │  └─ react.svg
+│  │  ├─ components
+│  │  │  ├─ Column.jsx
+│  │  │  ├─ KanbanBoard.jsx
+│  │  │  ├─ Navbar.jsx
+│  │  │  └─ TaskCard.jsx
+│  │  ├─ context
+│  │  │  ├─ AuthContext.jsx
+│  │  │  └─ TodoContext.jsx
+│  │  ├─ hooks
+│  │  │  └─ useTodos.js
+│  │  ├─ index.css
+│  │  ├─ main.jsx
+│  │  ├─ pages
+│  │  │  ├─ Home.jsx
+│  │  │  ├─ Login.jsx
+│  │  │  └─ Register.jsx
+│  │  ├─ styles
+│  │  │  └─ global.css
+│  │  └─ utils
+│  │     ├─ color.js
+│  │     └─ constants.js
+│  └─ vite.config.js
+├─ README.md
+└─ structure.md
+
+```
+```
+mern-todo-app
+├─ assets
+│  ├─ a.png
+│  ├─ b.png
+│  ├─ c.png
+│  ├─ d.png
+│  └─ e.png
+├─ backend
+│  ├─ package-lock.json
+│  ├─ package.json
+│  ├─ src
+│  │  ├─ config
+│  │  │  └─ db.js
+│  │  ├─ controllers
+│  │  │  ├─ authController.js
+│  │  │  └─ todoController.js
+│  │  ├─ middleware
+│  │  │  └─ authMiddleware.js
+│  │  ├─ models
+│  │  │  ├─ Todo.js
+│  │  │  └─ User.js
+│  │  ├─ routes
+│  │  │  ├─ authRoutes.js
+│  │  │  └─ todoRoutes.js
+│  │  ├─ server.js
+│  │  └─ utils
+│  │     └─ asyncHandler.js
+│  └─ test.js
+├─ frontend
+│  ├─ eslint.config.js
+│  ├─ index.html
+│  ├─ package-lock.json
+│  ├─ package.json
+│  ├─ public
+│  │  ├─ bg.jpg
+│  │  └─ vite.svg
+│  ├─ src
+│  │  ├─ api
+│  │  │  ├─ authApi.js
+│  │  │  ├─ axiosConfig.js
+│  │  │  └─ todoApi.js
+│  │  ├─ App.css
+│  │  ├─ App.jsx
+│  │  ├─ assets
+│  │  │  └─ react.svg
+│  │  ├─ components
+│  │  │  ├─ Column.jsx
+│  │  │  ├─ KanbanBoard.jsx
+│  │  │  ├─ Navbar.jsx
+│  │  │  └─ TaskCard.jsx
+│  │  ├─ context
+│  │  │  ├─ AuthContext.jsx
+│  │  │  └─ TodoContext.jsx
+│  │  ├─ hooks
+│  │  │  └─ useTodos.js
+│  │  ├─ index.css
+│  │  ├─ main.jsx
+│  │  ├─ pages
+│  │  │  ├─ Home.jsx
+│  │  │  ├─ Login.jsx
+│  │  │  └─ Register.jsx
+│  │  ├─ styles
+│  │  │  └─ global.css
+│  │  └─ utils
+│  │     ├─ color.js
+│  │     └─ constants.js
+│  └─ vite.config.js
+└─ README.md
+
+```
+```
+mern-todo-app
+├─ assets
+│  ├─ a.png
+│  ├─ b.png
+│  ├─ c.png
+│  ├─ d.png
+│  └─ e.png
+├─ backend
+│  ├─ package-lock.json
+│  ├─ package.json
+│  ├─ src
+│  │  ├─ config
+│  │  │  └─ db.js
+│  │  ├─ controllers
+│  │  │  ├─ authController.js
+│  │  │  └─ todoController.js
+│  │  ├─ middleware
+│  │  │  └─ authMiddleware.js
+│  │  ├─ models
+│  │  │  ├─ Todo.js
+│  │  │  └─ User.js
+│  │  ├─ routes
+│  │  │  ├─ authRoutes.js
+│  │  │  └─ todoRoutes.js
+│  │  ├─ server.js
+│  │  └─ utils
+│  │     └─ asyncHandler.js
+│  └─ test.js
+├─ frontend
+│  ├─ eslint.config.js
+│  ├─ index.html
+│  ├─ package-lock.json
+│  ├─ package.json
+│  ├─ public
+│  │  ├─ bg.jpg
+│  │  └─ vite.svg
+│  ├─ src
+│  │  ├─ api
+│  │  │  ├─ authApi.js
+│  │  │  ├─ axiosConfig.js
+│  │  │  └─ todoApi.js
+│  │  ├─ App.css
+│  │  ├─ App.jsx
+│  │  ├─ assets
+│  │  │  └─ react.svg
+│  │  ├─ components
+│  │  │  ├─ Column.jsx
+│  │  │  ├─ KanbanBoard.jsx
+│  │  │  ├─ Navbar.jsx
+│  │  │  └─ TaskCard.jsx
+│  │  ├─ context
+│  │  │  ├─ AuthContext.jsx
+│  │  │  └─ TodoContext.jsx
+│  │  ├─ hooks
+│  │  │  └─ useTodos.js
+│  │  ├─ index.css
+│  │  ├─ main.jsx
+│  │  ├─ pages
+│  │  │  ├─ Home.jsx
+│  │  │  ├─ Login.jsx
+│  │  │  └─ Register.jsx
+│  │  ├─ styles
+│  │  │  └─ global.css
+│  │  └─ utils
+│  │     ├─ color.js
+│  │     └─ constants.js
+│  └─ vite.config.js
+└─ README.md
+
+```
