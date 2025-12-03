@@ -145,7 +145,7 @@ Escape - Cancel editing
 Delete - Remove selected task (with confirmation)
 
 🔧 Project Structure
-text
+```
 todo-dnd/
 ├── backend/
 │   ├── controllers/    # API route handlers
@@ -162,6 +162,7 @@ todo-dnd/
 │       ├── services/   # API services
 │       └── utils/      # Helper functions
 └── assets/             # Images and screenshots
+```
 🤝 Contributing
 We welcome contributions! Here's how you can help:
 
