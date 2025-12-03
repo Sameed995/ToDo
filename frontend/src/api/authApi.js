@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://todo-6vh9.onrender.com/api/auth",
+  baseURL: "https://todo-6vh9.onrender.com/api",
 });
 
 // 🔥 Attach token automatically
@@ -15,7 +15,7 @@ API.interceptors.request.use((config) => {
 
 // Login
 export const loginUser = async (email, password) => {
-  const res = await API.post("/login", { email, password });
+  const res = await API.post("/auth/login", { email, password });
 
   // ✅ Save token
   localStorage.setItem("token", res.data.token);
@@ -25,6 +25,6 @@ export const loginUser = async (email, password) => {
 
 // Register
 export const registerUser = async (name, email, password) => {
-  const res = await API.post("/register", { name, email, password });
+  const res = await API.post("/auth/register", { name, email, password });
   return res.data;
 };
