@@ -37,8 +37,7 @@ Supports drag-and-drop task movement, task creation, editing, and deletion.
 ## 1.Homepage 
 ![Main](/assets/e.png)
 ## 2.Tasks
-![Main](/assets/a.png)
-![Main](/assets/c.png)
+![Main](/assets/a.png) ![Main](/assets/c.png)
 ![Main](/assets/d.png)
 
 
