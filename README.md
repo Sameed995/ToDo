@@ -5,7 +5,15 @@ A modern, interactive To-Do List web application built with React and Node.js, f
 🎯 Core Functionality
 Drag-and-Drop Tasks: Visually move tasks between columns (To-Do, In Progress, Done)
 
+<<<<<<< HEAD
 Full CRUD Operations: Create, Read, Update, and Delete tasks with ease
+=======
+Features:
+- Drag and Drop Tasks: Move tasks between columns like To-Do, In Progress, and Completed.
+- CRUD Operations: Create, Read, Update, and Delete tasks.
+- User Authentication: Login to start using.
+- Real-time Updates: Changes are instantly reflected without page refresh.
+>>>>>>> c69231db32b922c4d4fc11bc92caf9f4d3b9647d
 
 User Authentication: Optional login system to save tasks across sessions
 
@@ -18,7 +26,13 @@ Interactive Kanban board interface
 
 Clean, modern UI with TailwindCSS styling
 
+<<<<<<< HEAD
 Visual task status indicators
+=======
+1. Clone the repository:
+   git clone https://github.com/Sameed995/ToDo.git
+   cd ToDo
+>>>>>>> c69231db32b922c4d4fc11bc92caf9f4d3b9647d
 
 Intuitive task editing and management
 
